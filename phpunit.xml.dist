@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="EKup Test Suite">
+        <testsuite name="ekup Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
