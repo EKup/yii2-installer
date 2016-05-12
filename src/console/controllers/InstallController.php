@@ -1,6 +1,6 @@
 <?php
 
-namespace ekup\yii2_installer\console\controllers;
+namespace ekup\yii2\installer\console\controllers;
 
 use yii\console\Controller;
 use yii\helpers\Console;

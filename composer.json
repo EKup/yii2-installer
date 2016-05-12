@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ekup\\yii2_installer\\": "src"
+            "ekup\\yii2\\installer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ekup\\yii2_installer\\": "tests"
+            "ekup\\yii2\\installer\\": "tests"
         }
     },
     "scripts": {

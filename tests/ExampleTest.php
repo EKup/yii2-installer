@@ -1,5 +1,5 @@
 <?php
-namespace ekup\yii2_installer;
+namespace ekup\yii2\installer;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {

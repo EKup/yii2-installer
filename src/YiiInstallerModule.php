@@ -1,6 +1,6 @@
 <?php
 
-namespace ekup\yii2_installer;
+namespace ekup\yii2\installer;
 
 use yii\base\Module;
 use yii\console\Application;
