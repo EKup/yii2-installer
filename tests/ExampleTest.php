@@ -1,5 +1,5 @@
 <?php
-namespace League\Skeleton;
+namespace ekup\yii2_installer;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
