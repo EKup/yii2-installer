@@ -13,7 +13,17 @@ class YiiInstallerModule extends Module
         parent::init();
 
         if (\Yii::$app instanceof Application) {
-            $this->controllerNamespace = '\ekup\yii2_installer\console\controllers';
+            $this->controllerNamespace = '\ekup\yii2\installer\console\controllers';
+        }
+    }
+
+    /** @inheritdoc */
+    public function getControllerPath()
+    {
+        if (\Yii::$app instanceof Application) {
+            return \Yii::getAlias('@vendor/ekup/yii2-installer/src/console/controllers');
+        } else {
+            return \Yii::getAlias('@vendor/ekup/yii2-installer/src/controllers');
         }
     }
 }

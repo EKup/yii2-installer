@@ -13,9 +13,15 @@ abstract class Base extends Component implements ActionInterface
 {
     protected static $_baseActions = [
         'createStructure' => '\\ekup\\yii2\\installer\\configurator\\actions\\CreateStructure',
+        'setWritable' => '\\ekup\\yii2\\installer\\configurator\\actions\\SetWritable',
+        'setExecutable' => '\\ekup\\yii2\\installer\\configurator\\actions\\SetExecutable',
+        'setCookieValidationKey' => '\\ekup\\yii2\\installer\\configurator\\actions\\SetCookieValidationKey',
+        'changeDbParameters' => '\\ekup\\yii2\\installer\\configurator\\actions\\ChangeDbParameters',
     ];
     /** @var  Controller */
     public $controller;
+    /** @var bool  */
+    protected $_stopped = false;
 
     /**
      * @param array $config
@@ -24,21 +30,20 @@ abstract class Base extends Component implements ActionInterface
      */
     public static function createAction($config)
     {
-        if (isset($config['class'])) {
-            $className = $config['class'];
-            unset($config['class']);
-        } elseif (isset($config[0])) {
-            if (isset(static::$_baseActions[$config[0]])) {
-                $className = static::$_baseActions[$config[0]];
-                unset($config[0]);
+        if (!isset($config['class'])) {
+            if (isset($config[0])) {
+                if (isset(static::$_baseActions[$config[0]])) {
+                    $config['class'] = static::$_baseActions[$config[0]];
+                    unset($config[0]);
+                } else {
+                    throw new InvalidConfigException('Action configuration must be an array containing a "class" or type element.');
+                }
             } else {
                 throw new InvalidConfigException('Action configuration must be an array containing a "class" or type element.');
             }
-        } else {
-            throw new InvalidConfigException('Action configuration must be an array containing a "class" or type element.');
         }
 
-        return \Yii::createObject($className, $config);
+        return \Yii::createObject($config);
     }
 
     /**
@@ -51,5 +56,42 @@ abstract class Base extends Component implements ActionInterface
         } else {
             echo "{$text}\n";
         }
+    }
+
+    /**
+     * @param string $text
+     * @param bool $highlight
+     */
+    public function showMessage($text, $highlight=false)
+    {
+        if ($this->controller instanceof \yii\console\Controller) {
+            $this->controller->stdout("{$text}\n", $highlight ? Console::FG_GREEN : null);
+        } else {
+            echo "{$text}\n";
+        }
+    }
+
+    /**
+     *
+     */
+    public function stop()
+    {
+        $this->_stopped = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function stopped()
+    {
+        return $this->_stopped;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getRootPath()
+    {
+        return realpath(\Yii::getAlias('@app/../'));
     }
 }
