@@ -72,6 +72,34 @@ abstract class Base extends Component implements ActionInterface
     }
 
     /**
+     * @param string $text
+     * @param bool $default
+     * @return bool
+     */
+    public function confirm($text, $default=false)
+    {
+        if ($this->controller instanceof \yii\console\Controller) {
+            return $this->controller->confirm($text, $default);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param string $text
+     * @param array $options
+     * @return mixed|string
+     */
+    public function prompt($text, $options = [])
+    {
+        if ($this->controller instanceof \yii\console\Controller) {
+            return $this->controller->prompt($text, $options);
+        } else {
+            return isset($options['default']) ? $options['default'] : '';
+        }
+    }
+
+    /**
      *
      */
     public function stop()

@@ -7,22 +7,86 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+Инсталлатор проекта на Yii2, вынесенный в отдельный композер-пакет.
+Изначально разрабатывается для HKS, но может использоваться на любом Yii2 проекте.
 
-## Install
+## Установка
 
-Via Composer
+Через композер
 
 ``` bash
 $ composer require ekup/yii2-installer
 ```
 
-## Usage
+## Использование
+
+Настройка консольного приложения проекта
+``` php
+'modules'    => [
+    'installer'   => [
+        'class' => '\ekup\yii2\installer\YiiInstallerModule',
+    ],
+],
+
+'i18n' => [
+        'translations' => [
+            'installer' => [
+                'class'          => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'ru-RU',
+                'basePath'       => '@vendor/ekup/yii2-unstaller/messages',
+                'fileMap'        => [
+                    'installer' => 'installer.php',
+                ],
+            ],
+        ],
+    ],
+```
+
+В папку /common/config/installer необходимо добавить файл install.php с настройками установщика:
 
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+return [
+    'actions' => [
+        ['createStructure', 'envDescription' => [
+            'dev' => \Yii::t('installer', 'Сервер разработки/тестирования'),
+            'prod' => \Yii::t('installer', 'Боевой сервер'),
+        ]],
+        ['setWritable', 'files' => [
+            'backend/runtime',
+            'backend/web/assets',
+            'frontend/runtime',
+            'frontend/web/assets',
+            'console/runtime',
+        ]],
+        ['setExecutable', 'files' => [
+            'yii',
+            'tests/codeception/bin/yii',
+        ]],
+        ['setCookieValidationKey', 'files' => [
+            'backend/config/main-local.php',
+            'frontend/config/main-local.php',
+        ]],
+        ['changeDbParameters', 'files' => [
+            '/common/config/main-local.php',
+        ]],
+        [
+            'class' => \main\configurator\actions\CreateUser::className(),
+            'users' => [
+                [
+                    'email' => 'admin@admin.com',
+                    'password' => '123456',
+                    'role' => 'admin',
+                ],
+            ],
+        ],
+    ],
+];
+```
+
+Запуск установщика:
+
+``` php
+./yii installer/install
 ```
 
 ## Change log

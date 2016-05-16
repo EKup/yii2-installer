@@ -10,35 +10,10 @@ use yii\console\Controller;
  */
 class InstallController extends Controller
 {
-    public function actionRun()
+    public function actionIndex()
     {
-        $configurator = new Configurator([
-            'actions' => [
-                ['createStructure', 'envDescription' => [
-                    'dev' => \Yii::t('installer', 'Сервер разработки/тестирования'),
-                    'prod' => \Yii::t('installer', 'Боевой сервер'),
-                ]],
-                ['setWritable', 'files' => [
-                    'backend/runtime',
-                    'backend/web/assets',
-                    'frontend/runtime',
-                    'frontend/web/assets',
-                    'console/runtime',
-                ]],
-                ['setExecutable', 'files' => [
-                    'yii',
-                    'tests/codeception/bin/yii',
-                ]],
-                ['setCookieValidationKey', 'files' => [
-                    'backend/config/main-local.php',
-                    'frontend/config/main-local.php',
-                ]],
-                ['changeDbParameters', 'files' => [
-                    '/common/config/main-local.php',
-                ]],
-            ],
-            'controller' => $this,
-        ]);
+        $configurator = new Configurator(['controller' => $this]);
+        $configurator->loadConfig(realpath(\Yii::getAlias('@app/../') . '/common/config/installer/install.php'));
 
         $configurator->execute();
     }

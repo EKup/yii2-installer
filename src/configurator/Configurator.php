@@ -3,6 +3,7 @@ namespace ekup\yii2\installer\configurator;
 use ekup\yii2\installer\configurator\actions\Base;
 use yii\base\Component;
 use yii\base\Controller;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Configurator
@@ -18,6 +19,23 @@ class Configurator extends Component
         foreach ($this->actions as $actionParams) {
             $action = $this->createAction($actionParams);
             $action->run();
+        }
+    }
+
+    /**
+     * @param string $path
+     * @throws InvalidConfigException
+     */
+    public function loadConfig($path)
+    {
+        if (file_exists($path)) {
+            $config = require($path);
+
+            \Yii::configure($this, $config);
+        } else {
+            throw new InvalidConfigException('installer', 'Конфигурационный файл не найден [{f}]', [
+                'f' => $path,
+            ]);
         }
     }
 
