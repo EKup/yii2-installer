@@ -103,5 +103,13 @@ class ChangeDbParameters extends Base
 
             file_put_contents($file, $content);
         }
+
+        \Yii::$app->set('db', [
+            'class' => 'yii\db\Connection',
+            'dsn' => "{$dbType}:host={$host};port={$dbPort};dbname={$dbName}",
+            'username' => $login,
+            'password' => $password,
+            'charset' => 'utf8',
+        ]);
     }
 }
