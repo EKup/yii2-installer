@@ -17,6 +17,7 @@ abstract class Base extends Component implements ActionInterface
         'setExecutable' => '\\ekup\\yii2\\installer\\configurator\\actions\\SetExecutable',
         'setCookieValidationKey' => '\\ekup\\yii2\\installer\\configurator\\actions\\SetCookieValidationKey',
         'changeDbParameters' => '\\ekup\\yii2\\installer\\configurator\\actions\\ChangeDbParameters',
+        'createSymlink' => '\\ekup\\yii2\\installer\\configurator\\actions\\CreateSymlink',
     ];
     /** @var  Controller */
     public $controller;
