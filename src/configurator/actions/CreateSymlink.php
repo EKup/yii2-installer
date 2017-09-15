@@ -15,9 +15,9 @@ class CreateSymlink extends Base
         $root = $this->_getRootPath();
         $this->showMessage(\Yii::t('installer', 'Создание символьных ссылок'));
 
-        foreach ($this->files as $link => $target) {
-            $link = trim('/', $link);
-            $target = trim('/', $target);
+        foreach ($this->links as $link => $target) {
+            $link = trim($link, '/');
+            $target = trim($target, '/');
 
             $this->showMessage(\Yii::t('installer', '      ln -s ./{f1} ./{f2}', [
                 'f1' => $target,
